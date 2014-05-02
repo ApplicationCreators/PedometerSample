@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml>
+
+    <body>
+
+        <music>
+            <title>初音ミクの消失</title>
+            <difficulty>A</difficulty>
+        </music>
+        <music>
+            <title>千本桜</title>
+            <difficulty>B</difficulty>
+        </music>
+    </body>
+
+</xml>

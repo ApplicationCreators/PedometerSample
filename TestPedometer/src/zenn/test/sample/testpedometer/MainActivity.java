@@ -1,129 +1,84 @@
 package zenn.test.sample.testpedometer;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
+import zenn.test.sample.testpedometer.service.WalkCounterBinder;
+import zenn.test.sample.testpedometer.service.WalkCounterReceiver;
+import zenn.test.sample.testpedometer.service.WalkCounterService;
+import zenn.test.sample.testpedometer.utils.MusicFileHandler;
+import zenn.test.sample.testpedometer.utils.MusicFileHandler.MusicItem;
+
 import android.app.Activity;
-import android.app.ActionBar;
-import android.app.Fragment;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
+import android.content.res.AssetManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.os.Build;
 
 public class MainActivity extends Activity{
-
-	/** Called when the activity is first created. */
-	SensorAdapter ad;
+	public static final String APP_TAG = "TestPedometer.";
+	public static final String TAG = APP_TAG+"MainActivity";
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
+		Log.d(TAG, "onCreate");
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		Log.d("MainActivity", "onCreate");
-
-		if (savedInstanceState == null) {
-			getFragmentManager().beginTransaction()
-			.add(R.id.container, new PlaceholderFragment()).commit();
+		setContentView(R.layout.play_list);
+		
+		// アッセットへのアクセス
+		AssetManager assetManager = getAssets();
+		final MusicList musicList = new MusicList(assetManager, "lists/music_list.xml");
+		
+		// リストを用意する
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+		for(MusicItem item : musicList.getMusics()){
+			adapter.add(item.title);
 		}
-		SensorManager manager = (SensorManager) getSystemService(SENSOR_SERVICE);
-		List<Sensor> sensors = manager.getSensorList(Sensor.TYPE_ALL);
-		TextView comment = (TextView) findViewById(R.id.comment);
-		String val = "サポートセンサー\n";
-		for (Sensor s : sensors) {
-			val += s.getName() + "\n";
-		}
-		comment.setText(val);
-
-		ad = new SensorAdapter(findViewById(R.id.lvaluex),
-				findViewById(R.id.lvaluey), findViewById(R.id.lvaluez));
-
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
-	public static class PlaceholderFragment extends Fragment {
-
-		public PlaceholderFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_main, container,
-					false);
-			return rootView;
-		}
-	}
-
-	class SensorAdapter implements SensorEventListener{
-
-		private SensorManager manager;
-		private TextView vx;
-		private TextView vy;
-		private TextView vz;
-
-		public SensorAdapter(View vx, View vy, View vz) {
-			manager = (SensorManager) getSystemService(SENSOR_SERVICE);
-			this.vx = (TextView) vx;
-			this.vy = (TextView) vy;
-			this.vz = (TextView) vz;
-			List<Sensor> sensors = manager
-					.getSensorList(Sensor.TYPE_ACCELEROMETER);
-			if (sensors.size() > 0) {
-				Sensor s = sensors.get(0);
-				manager.registerListener(this, s, SensorManager.SENSOR_DELAY_UI);
+		ListView listView = (ListView) findViewById(R.id.listView1);
+		listView.setAdapter(adapter);
+		// クリックしたら音楽プレイ画面へ行くようにする
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				Log.d(TAG, "arg2 : "+ arg2+" arg3 : "+arg3);
+				Intent intent = new Intent(getApplicationContext(), PlayMusicActivity.class);
+//				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				MusicItem item =  musicList.getMusics().get((int)arg3);
+				intent.putExtra("title",item.title);
+				startActivity(intent);
 			}
-		}
-
-		public void stopSensor() {
-			manager.unregisterListener(this);
-			this.vx = null;
-			this.vy = null;
-			this.vz = null;
-		}
-
-		@Override
-		public void onAccuracyChanged(Sensor arg0, int arg1) {
-		}
-
-		@Override
-		public void onSensorChanged(SensorEvent event) {
-			if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-
-				vx.setText("" + event.values[0]);
-				vy.setText("" + event.values[1]);
-				vz.setText("" + event.values[2]);
-			}
-		}
+		});
+		
 	}
 }
+
