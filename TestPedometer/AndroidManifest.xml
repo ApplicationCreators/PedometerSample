@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name="zenn.test.sample.testpedometer.PlayMusicActivity"></activity>
-        <service android:name=".service.WalkCounterService" android:enabled="true"></service>
+        <service android:name=".service.WalkCounterOnPlayingService" android:enabled="true"></service>
         <receiver android:name=".service.WalkCounterReceiver" android:enabled="true">
             <intent-filter >
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>

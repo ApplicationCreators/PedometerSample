@@ -12,6 +12,7 @@ public class MusicFileHandler extends DefaultHandler{
 	public class MusicItem{
 		public String title;
 		public String difficulty;
+		public String file;
 	}
 	
 	private StringBuffer buf;
@@ -34,6 +35,8 @@ public class MusicFileHandler extends DefaultHandler{
 			buf = new StringBuffer();
 		} else if ("difficulty".equals(localName) && inItem){
 			buf = new StringBuffer();
+		} else if ("file".equals(localName) && inItem){
+			buf = new StringBuffer();
 		}
 	}
 	// 各要素の終わりで呼び出される
@@ -47,6 +50,8 @@ public class MusicFileHandler extends DefaultHandler{
 			item.title = buf.toString();
 		} else if("difficulty".equals(localName) && inItem){
 			item.difficulty = buf.toString();
+		} else if ("file".equals(localName) && inItem){
+			item.file = buf.toString();
 		}
 		buf = null;
 	}

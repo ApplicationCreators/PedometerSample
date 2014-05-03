@@ -6,10 +6,14 @@
         <music>
             <title>初音ミクの消失</title>
             <difficulty>A</difficulty>
+            <file>hatsune1</file>
+            <length>287</length>
         </music>
         <music>
             <title>千本桜</title>
             <difficulty>B</difficulty>
+            <file>senbonzakura</file>
+            <length>244</length>
         </music>
     </body>
 

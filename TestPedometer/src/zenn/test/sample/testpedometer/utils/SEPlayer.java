@@ -14,4 +14,8 @@ public class SEPlayer {
 		this.mSoundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
 		this.mHitSound = mSoundPool.load(context, resid, 1);
 	}
+	
+	public void playHitSound(){
+		mSoundPool.play(mHitSound, 1.0f, 1.0f, 1, 0, 1.0f);
+	}
 }

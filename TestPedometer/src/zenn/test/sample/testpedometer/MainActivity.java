@@ -15,7 +15,6 @@ import org.xml.sax.SAXException;
 import zenn.test.sample.testpedometer.service.WalkCounterBinder;
 import zenn.test.sample.testpedometer.service.WalkCounterReceiver;
 import zenn.test.sample.testpedometer.service.WalkCounterService;
-import zenn.test.sample.testpedometer.utils.MusicFileHandler;
 import zenn.test.sample.testpedometer.utils.MusicFileHandler.MusicItem;
 
 import android.app.Activity;
@@ -75,6 +74,7 @@ public class MainActivity extends Activity{
 //				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				MusicItem item =  musicList.getMusics().get((int)arg3);
 				intent.putExtra("title",item.title);
+				intent.putExtra("file", item.file);
 				startActivity(intent);
 			}
 		});
