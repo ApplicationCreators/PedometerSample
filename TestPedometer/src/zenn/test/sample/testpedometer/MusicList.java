@@ -11,8 +11,8 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import zenn.test.sample.testpedometer.utils.MusicFileHandler;
-import zenn.test.sample.testpedometer.utils.MusicFileHandler.MusicItem;
+import zenn.test.sample.testpedometer.io.MusicFileHandler;
+import zenn.test.sample.testpedometer.io.MusicFileHandler.MusicItem;
 import android.content.res.AssetManager;
 import android.util.Log;
 
@@ -24,7 +24,7 @@ public class MusicList {
 	public MusicList(AssetManager manager, String path) {
 		musics = new ArrayList<MusicFileHandler.MusicItem>();
 		try {
-			InputStream mInput = manager.open("lists/music_list.xml");
+			InputStream mInput = manager.open(path);
 			
 			// SAXを使って応答データを構文解析する
 			SAXParserFactory factory = SAXParserFactory.newInstance();

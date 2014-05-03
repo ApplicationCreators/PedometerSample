@@ -12,10 +12,10 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import zenn.test.sample.testpedometer.io.MusicFileHandler.MusicItem;
 import zenn.test.sample.testpedometer.service.WalkCounterBinder;
 import zenn.test.sample.testpedometer.service.WalkCounterReceiver;
 import zenn.test.sample.testpedometer.service.WalkCounterService;
-import zenn.test.sample.testpedometer.utils.MusicFileHandler.MusicItem;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -62,7 +62,7 @@ public class MainActivity extends Activity{
 		for(MusicItem item : musicList.getMusics()){
 			adapter.add(item.title);
 		}
-		ListView listView = (ListView) findViewById(R.id.listView1);
+		ListView listView = (ListView) findViewById(R.id.lap);
 		listView.setAdapter(adapter);
 		// クリックしたら音楽プレイ画面へ行くようにする
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

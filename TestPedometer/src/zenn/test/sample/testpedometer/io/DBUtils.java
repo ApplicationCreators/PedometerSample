@@ -1,4 +1,4 @@
-package zenn.test.sample.testpedometer.utils;
+package zenn.test.sample.testpedometer.io;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -2,7 +2,7 @@ package zenn.test.sample.testpedometer;
 
 import java.util.Date;
 
-import zenn.test.sample.testpedometer.utils.DBUtils;
+import zenn.test.sample.testpedometer.io.DBUtils;
 import zenn.test.sample.testpedometer.utils.WalkCounterUtils;
 
 import android.content.Context;

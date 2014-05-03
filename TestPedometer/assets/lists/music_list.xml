@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xml>
-
     <body>
-
         <music>
             <title>初音ミクの消失</title>
             <difficulty>A</difficulty>
@@ -16,5 +14,4 @@
             <length>244</length>
         </music>
     </body>
-
 </xml>
