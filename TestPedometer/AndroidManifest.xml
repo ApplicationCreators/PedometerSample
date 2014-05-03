@@ -27,6 +27,7 @@
             android:name="zenn.test.sample.testpedometer.PlayMusicActivity"
             android:screenOrientation="portrait"
             ></activity>
+        <activity android:name="zenn.test.sample.testpedometer.ResultActivity"></activity>
         <service android:name=".service.WalkCounterOnPlayingService" android:enabled="true"></service>
         <receiver android:name=".service.WalkCounterReceiver" android:enabled="true">
             <intent-filter >

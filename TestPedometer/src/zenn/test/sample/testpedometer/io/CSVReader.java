@@ -26,10 +26,6 @@ public class CSVReader {
 				String[] strings = line.split(",");
 				data.add(strings);
 			}
-			
-			for(String[] strs : data){
-				Log.d(TAG, String.valueOf(strs.length));
-			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -75,6 +75,7 @@ public class MainActivity extends Activity{
 				MusicItem item =  musicList.getMusics().get((int)arg3);
 				intent.putExtra("title",item.title);
 				intent.putExtra("file", item.file);
+				intent.putExtra("length", item.length);
 				startActivity(intent);
 			}
 		});

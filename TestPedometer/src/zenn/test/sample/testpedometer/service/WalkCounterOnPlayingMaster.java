@@ -99,7 +99,7 @@ public class WalkCounterOnPlayingMaster implements SensorEventListener {
 	@Override
 	public void onSensorChanged(SensorEvent event) {
 		if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-			Log.d(TAG, "onSensorChanged.TYPE_ACCELEROMETER");
+			Log.v(TAG, "onSensorChanged.TYPE_ACCELEROMETER");
 			// 増加量
 			dx = event.values[0] - oldx;
 			dy = event.values[1] - oldy;
