@@ -1,17 +1,37 @@
 package zenn.test.sample.testpedometer.io;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.google.android.maps.ItemizedOverlay;
+
 import android.content.res.AssetManager;
 
 public class MusicFileHandler extends DefaultHandler{
+
+	private String[] item_contents = {
+			"title",
+			"difficulty",
+			"length",
+			"file"
+	};
+	private HashSet<String> item_contents_hash;
+	
+	public MusicFileHandler() {
+		item_contents_hash = new HashSet<String>();
+		for(String string : item_contents)
+			item_contents_hash.add(string);
+	}
+	
+	
 	public class MusicItem{
 		public String title;
 		public String difficulty;
+		public String length;
 		public String file;
 	}
 	
@@ -31,11 +51,7 @@ public class MusicFileHandler extends DefaultHandler{
 		} else if ("music".equals(localName)){
 			item = new MusicItem();
 			inItem = true;
-		} else if ("title".equals(localName) && inItem){
-			buf = new StringBuffer();
-		} else if ("difficulty".equals(localName) && inItem){
-			buf = new StringBuffer();
-		} else if ("file".equals(localName) && inItem){
+		} else if (inItem && item_contents_hash.contains(localName)){
 			buf = new StringBuffer();
 		}
 	}
@@ -52,6 +68,8 @@ public class MusicFileHandler extends DefaultHandler{
 			item.difficulty = buf.toString();
 		} else if ("file".equals(localName) && inItem){
 			item.file = buf.toString();
+		} else if ("length".equals(localName) && inItem){
+			item.length = buf.toString();
 		}
 		buf = null;
 	}
