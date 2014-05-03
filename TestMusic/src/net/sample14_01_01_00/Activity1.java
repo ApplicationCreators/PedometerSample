@@ -38,11 +38,11 @@ public class Activity1 extends Activity {
 		}
 	}
 
-//	public void onResume() {
-//		super.onResume();
-//		myMediaPlayer = MediaPlayer.create(this, R.raw.miku);
-//		myMediaPlayer.setOnCompletionListener(new SampleCompletionListener());
-//	}
+	public void onResume() {
+		super.onResume();
+		myMediaPlayer = MediaPlayer.create(this, R.raw.miku);
+		myMediaPlayer.setOnCompletionListener(new SampleCompletionListener());
+	}
 
 	public void onPause() {
 		super.onPause();
