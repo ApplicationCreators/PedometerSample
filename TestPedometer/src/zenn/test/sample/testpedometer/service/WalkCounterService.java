@@ -1,8 +1,8 @@
 package zenn.test.sample.testpedometer.service;
 
 import zenn.test.sample.testpedometer.DatabaseHelper;
-import zenn.test.sample.testpedometer.MainActivity;
 import zenn.test.sample.testpedometer.WalkCounterMaster;
+import zenn.test.sample.testpedometer.activity.MainActivity;
 import android.app.Service;
 import android.content.Intent;
 import android.hardware.SensorManager;

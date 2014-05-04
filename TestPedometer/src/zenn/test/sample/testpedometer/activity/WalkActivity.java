@@ -1,8 +1,9 @@
-package zenn.test.sample.testpedometer;
+package zenn.test.sample.testpedometer.activity;
 
 import java.util.Date;
 import java.util.List;
 
+import zenn.test.sample.testpedometer.R;
 import zenn.test.sample.testpedometer.service.WalkCounterBinder;
 import zenn.test.sample.testpedometer.service.WalkCounterReceiver;
 import zenn.test.sample.testpedometer.service.WalkCounterService;

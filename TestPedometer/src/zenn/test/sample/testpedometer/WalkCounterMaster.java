@@ -3,6 +3,8 @@ package zenn.test.sample.testpedometer;
 import java.util.Date;
 import java.util.List;
 
+import zenn.test.sample.testpedometer.activity.MainActivity;
+
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;

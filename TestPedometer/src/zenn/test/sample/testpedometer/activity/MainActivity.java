@@ -1,4 +1,4 @@
-package zenn.test.sample.testpedometer;
+package zenn.test.sample.testpedometer.activity;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,6 +12,8 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import zenn.test.sample.testpedometer.MusicList;
+import zenn.test.sample.testpedometer.R;
 import zenn.test.sample.testpedometer.io.MusicFileHandler.MusicItem;
 import zenn.test.sample.testpedometer.service.WalkCounterBinder;
 import zenn.test.sample.testpedometer.service.WalkCounterReceiver;
@@ -75,6 +77,7 @@ public class MainActivity extends Activity{
 				MusicItem item =  musicList.getMusics().get((int)arg3);
 				intent.putExtra("title",item.title);
 				intent.putExtra("file", item.file);
+				intent.putExtra("length", item.length);
 				startActivity(intent);
 			}
 		});

@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import zenn.test.sample.testpedometer.MainActivity;
+import zenn.test.sample.testpedometer.activity.MainActivity;
 
 import android.content.res.AssetManager;
 import android.util.Log;
@@ -25,10 +25,6 @@ public class CSVReader {
 			while((line = bufReader.readLine()) != null){
 				String[] strings = line.split(",");
 				data.add(strings);
-			}
-			
-			for(String[] strs : data){
-				Log.d(TAG, String.valueOf(strs.length));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

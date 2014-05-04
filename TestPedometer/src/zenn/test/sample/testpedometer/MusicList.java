@@ -11,6 +11,7 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import zenn.test.sample.testpedometer.activity.MainActivity;
 import zenn.test.sample.testpedometer.io.MusicFileHandler;
 import zenn.test.sample.testpedometer.io.MusicFileHandler.MusicItem;
 import android.content.res.AssetManager;
