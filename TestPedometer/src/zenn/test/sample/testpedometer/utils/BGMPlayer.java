@@ -11,7 +11,7 @@ public class BGMPlayer {
 		this.mBgm = MediaPlayer.create(context, resid);
 		this.mBgm.setLooping(false);		// ループしないようにする
 //		this.mBgm.setVolume(1.0f, 1.0f);	// 左右のボリュームを最大にする
-		this.mBgm.setVolume(0.2f, 0.2f);	// 左右のボリュームを最大にする
+		this.mBgm.setVolume(0.8f, 0.8f);	// 左右のボリュームを最大にする
 	}
 	
 	// BGMを再生する

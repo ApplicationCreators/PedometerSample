@@ -73,6 +73,7 @@ public class WalkCounterOnPlayingService extends Service {
 		Toast toast = Toast.makeText(getApplicationContext(), "onUnbind()",
 				Toast.LENGTH_SHORT);
 		toast.show();
+		master.stopSensor();
 		// アンバインド後に再度バインドすると、再びサービスに接続しますが、
 		// このときにService#onBind(Intent)メソッドが呼び出されるか、
 		// Service#onRebind(Intent)メソッドが呼び出されるかは、

@@ -78,6 +78,7 @@ public class WalkCounterOnPlayingMaster implements SensorEventListener {
 
 	public WalkCounterOnPlayingMaster(SensorManager manager) {
 		this.counter = 0;
+		this.manager = manager;
 		List<Sensor> sensors = manager.getSensorList(Sensor.TYPE_ACCELEROMETER);
 		if (sensors.size() > 0) {
 			Sensor s = sensors.get(0);
@@ -86,8 +87,10 @@ public class WalkCounterOnPlayingMaster implements SensorEventListener {
 	}
 
 	public void stopSensor() {
-		if (manager != null)
+		if (manager != null){
+			Log.d(TAG, "stopSensor");
 			manager.unregisterListener(this);
+		}
 		manager = null;
 	}
 
