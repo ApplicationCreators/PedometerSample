@@ -28,7 +28,7 @@ public class MusicFileHandler extends DefaultHandler{
 	}
 	
 	
-	public class MusicItem{
+	public static class MusicItem{
 		public String title;
 		public String difficulty;
 		public String length;

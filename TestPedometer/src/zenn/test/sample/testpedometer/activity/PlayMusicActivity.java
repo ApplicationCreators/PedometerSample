@@ -1,16 +1,20 @@
 package zenn.test.sample.testpedometer.activity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import zenn.test.sample.testpedometer.R;
 import zenn.test.sample.testpedometer.activity.MainActivity;
 import zenn.test.sample.testpedometer.io.CSVReader;
+import zenn.test.sample.testpedometer.io.MusicFileHandler.MusicItem;
+import zenn.test.sample.testpedometer.model.PlayingMonitor;
 import zenn.test.sample.testpedometer.service.WalkCounterBinder;
 import zenn.test.sample.testpedometer.service.WalkCounterOnPlayingBinder;
 import zenn.test.sample.testpedometer.service.WalkCounterOnPlayingService;
 import zenn.test.sample.testpedometer.service.WalkCounterReceiver;
 import zenn.test.sample.testpedometer.service.WalkCounterService;
 import zenn.test.sample.testpedometer.utils.BGMPlayer;
+import zenn.test.sample.testpedometer.utils.SEPlayer;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -32,16 +36,13 @@ public class PlayMusicActivity extends Activity{
 	public static final String TAG = MainActivity.APP_TAG+"PlayMusicActivity";
 	
 	private BGMPlayer bgm;
+	private SEPlayer se_player;
+	private HashMap<String, Integer> se_map;
 	
 	ViewRefresher thread;
 	
-	private ArrayList<String[]> rithmData;
-	private ArrayList<Integer> walk_counter;
-	private int current_index;
-	private long count_accumulate;
-	private long end_time;
-	private long last_time;
-	private long next_time;
+	PlayingMonitor monitor;
+	
 	// ラップ用
 	private ArrayAdapter<String> adapter;
 
@@ -68,12 +69,15 @@ public class PlayMusicActivity extends Activity{
 		
 		// タイトルを取得
 		Intent it = getIntent();
-		String title = it.getStringExtra("title");
-		String file = it.getStringExtra("file");
-		long length = Integer.parseInt(it.getStringExtra("length")) * 1000;
+		MusicItem music_item = new MusicItem();
+		music_item.title = it.getStringExtra("title");
+		music_item.file = it.getStringExtra("file");
+		music_item.length = it.getStringExtra("length");
+		
+		Log.d(TAG, "length : "+music_item.length);
 		
 		TextView textView = (TextView) findViewById(R.id.title);
-		textView.setText(title);
+		textView.setText(music_item.title);
 		
 		// 戻るボタンの設定
 		Button backButton = (Button) findViewById(R.id.back);
@@ -85,12 +89,23 @@ public class PlayMusicActivity extends Activity{
 		});
 		
 		// BGMを取得
-		int resid = getResources().getIdentifier(file, "raw", getPackageName());
+		int resid = getResources().getIdentifier(music_item.file, "raw", getPackageName());
 		bgm = new BGMPlayer(this, resid);
+		
+		// SEの用意
+		se_map = new HashMap<String, Integer>();
+		se_player = new SEPlayer(this);
+		se_map.put("Great", se_player.registerSE(R.raw.great));
+		se_map.put("Good", se_player.registerSE(R.raw.good));
+		se_map.put("Slow", se_player.registerSE(R.raw.fast));
+		se_map.put("Fast", se_player.registerSE(R.raw.slowly));
 		
 		// リズムファイルを取得
 		AssetManager manager = getAssets();
-		CSVReader reader = new CSVReader(manager, "rithm/"+file+".csv");
+		CSVReader reader = new CSVReader(manager, "rithm/"+music_item.file+".csv");
+		
+		// PlayingMonitorの初期化。
+		monitor = new PlayingMonitor(music_item, reader.getData(), System.currentTimeMillis());
 		
 		/////// 歩数計を開始
 		// サービスを開始
@@ -100,24 +115,15 @@ public class PlayMusicActivity extends Activity{
 		registerReceiver(receiver, filter);
 		// サービスにバインド
 		bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
-		
+
 		///// ラップの表示
 		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
 		ListView lapView = (ListView) findViewById(R.id.lap);
 		lapView.setAdapter(adapter);
 		
-		/////// ゲームのデータを初期化
-		current_index = 0;
-		count_accumulate = 0;
-		rithmData = reader.getData();
-		walk_counter = new ArrayList<Integer>();
-		end_time = System.currentTimeMillis() + length;
-		
 		/////// ゲーム開始
 		// 音楽を鳴らす
 		bgm.start();
-		last_time = System.currentTimeMillis();
-		next_time = (long)Integer.parseInt(rithmData.get(0)[0]) * 1000;
 		// 画面表示を行う
 		thread = new ViewRefresher();
 		thread.start();
@@ -179,7 +185,7 @@ public class PlayMusicActivity extends Activity{
 		@Override
 		public void run() {
 			Log.d(TAG, "run");
-			current_theme.setText(String.valueOf(next_time));
+			current_theme.setText(String.valueOf(monitor.getNextPhaseInterval()));
 			while (runflg) {
 				handler.post(new Runnable() {
 					@Override
@@ -203,34 +209,23 @@ public class PlayMusicActivity extends Activity{
 		}
 		
 		public void judgeNext(){
-			if(System.currentTimeMillis() > last_time+ next_time){
-				current_index++;
-				if(current_index < rithmData.size()){
-					int lap_count = (int) (walkCounterService.getCounter() - count_accumulate);
-					int lap_ans_diff = 0;
-					if(current_index == 1){
-						lap_ans_diff = Integer.parseInt(rithmData.get(current_index-1)[1]);
-					}else if(current_index > 1){
-						lap_ans_diff = Integer.parseInt(rithmData.get(current_index-1)[1])
-								- Integer.parseInt(rithmData.get(current_index - 2)[1]);
-					}
-					adapter.add(next_time+"  "+lap_count+"  "+lap_ans_diff);
-					count_accumulate = walkCounterService.getCounter();
-					last_time = System.currentTimeMillis();
-					next_time = (long)Integer.parseInt(rithmData.get(current_index)[0]) * 1000
-									- (long)Integer.parseInt(rithmData.get(current_index - 1)[0]) * 1000;
+			if(monitor.judgeNext(System.currentTimeMillis(), walkCounterService.getCounter())){
+				adapter.add(monitor.getLastPhaseInterval()+"  "+monitor.getLastWalkCount()+"  "+monitor.getLastAnswerCount());
+				current_theme.setText(String.valueOf(monitor.getNextPhaseInterval()));
+				String result = monitor.getLastPhaseResult();
+				Integer se = se_map.get(result);
+				if(se != null){
+					Log.d(TAG, "Play SE "+result);
+					se_player.play(se.intValue());
 				}
-				else{
-					next_time = Long.MAX_VALUE;
-				}
-				current_theme.setText(String.valueOf(next_time));
 			}
 		}
 		
 		public void judgeEnd(){
-			if (System.currentTimeMillis() > end_time){
+			if (monitor.judgeEnd(System.currentTimeMillis())){
 				stopPlaying();
 				Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
+				intent.putExtra("point", monitor.getResult());
 				startActivity(intent);
 			}
 		}
