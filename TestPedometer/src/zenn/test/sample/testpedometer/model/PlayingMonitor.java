@@ -127,9 +127,9 @@ public class PlayingMonitor {
 			int answer_count = (int) rithm_data.get(current_index - 1).answer_walk_count;
 			int record_count = (int) walk_data.get(current_index - 1).count;
 			int judge = judgeResult(answer_count, record_count);
-			if(judge <= 1)
+			if(judge <= 2)
 				return "Great";
-			else if(judge <= 2)
+			else if(judge <= 3)
 				return "Good";
 			else{
 				if(record_count > answer_count)
