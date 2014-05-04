@@ -13,5 +13,11 @@
             <file>senbonzakura</file>
             <length>244</length>
         </music>
+        <music>
+            <title>ジョジョ</title>
+            <difficulty>C</difficulty>
+            <file>zyozyo</file>
+            <length>129</length>
+        </music>
     </body>
 </xml>
