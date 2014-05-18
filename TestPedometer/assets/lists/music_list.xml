@@ -19,5 +19,29 @@
             <file>zyozyo</file>
             <length>89</length>
         </music>
+        <music>
+            <title>killy killy JOKER</title>
+            <difficulty>A</difficulty>
+            <file>killy_killy_joker</file>
+            <length>90</length>
+        </music>
+        <music>
+            <title>Rising Hope</title>
+            <difficulty>A</difficulty>
+            <file>rising_hope</file>
+            <length>90</length>
+        </music>
+        <music>
+            <title>シドニア</title>
+            <difficulty>A</difficulty>
+            <file>shidonia</file>
+            <length>238</length>
+        </music>
+        <music>
+            <title>ビリーバーズ・ハイ</title>
+            <difficulty>A</difficulty>
+            <file>believers_high</file>
+            <length>91</length>
+        </music>
     </body>
 </xml>
