@@ -2,46 +2,61 @@
 <xml>
     <body>
         <music>
+            <id>1</id>
             <title>初音ミクの消失</title>
             <difficulty>A</difficulty>
             <file>hatsune1</file>
             <length>287</length>
         </music>
         <music>
+            <id>2</id>
             <title>千本桜</title>
             <difficulty>B</difficulty>
             <file>senbonzakura</file>
             <length>244</length>
         </music>
         <music>
+            <id>3</id>
             <title>ジョジョ</title>
             <difficulty>C</difficulty>
             <file>zyozyo</file>
             <length>89</length>
         </music>
         <music>
+            <id>4</id>
             <title>killy killy JOKER</title>
             <difficulty>A</difficulty>
             <file>killy_killy_joker</file>
             <length>90</length>
         </music>
         <music>
+            <id>5</id>
             <title>Rising Hope</title>
             <difficulty>A</difficulty>
             <file>rising_hope</file>
             <length>90</length>
         </music>
         <music>
+            <id>6</id>
             <title>シドニア</title>
             <difficulty>A</difficulty>
             <file>shidonia</file>
             <length>238</length>
         </music>
         <music>
+            <id>7</id>
             <title>ビリーバーズ・ハイ</title>
             <difficulty>A</difficulty>
             <file>believers_high</file>
             <length>91</length>
         </music>
+        <medley>
+            <medley_id>1</medley_id>
+            <medley_name>メドレー１</medley_name>
+            <music_id>5</music_id>
+            <music_id>7</music_id>
+            <music_id>4</music_id>
+            <music_id>2</music_id>
+        </medley>
     </body>
 </xml>

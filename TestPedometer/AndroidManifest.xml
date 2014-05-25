@@ -24,7 +24,15 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="zenn.test.sample.testpedometer.activity.MedleyMainActivity"
+            android:screenOrientation="portrait">
+		</activity>
+        <activity
             android:name="zenn.test.sample.testpedometer.activity.PlayMusicActivity"
+            android:screenOrientation="portrait"
+            ></activity>
+        <activity
+            android:name="zenn.test.sample.testpedometer.activity.PlayMedleyActivity"
             android:screenOrientation="portrait"
             ></activity>
         <activity android:name="zenn.test.sample.testpedometer.activity.ResultActivity"></activity>

@@ -1,9 +1,12 @@
 package zenn.test.sample.testpedometer.utils;
 
+import zenn.test.sample.testpedometer.activity.MainActivity;
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.util.Log;
 
 public class BGMPlayer {
+	public static final String TAG = MainActivity.APP_TAG+"BGMPlayer";
 	private MediaPlayer mBgm;
 	
 	public BGMPlayer(Context context, int resid) {
@@ -29,5 +32,17 @@ public class BGMPlayer {
 		}
 	}
 	
-
+	// BGMをリリースする
+	public void release(){
+		if(!mBgm.isPlaying()){
+			mBgm.release();
+		}
+		else{
+			Log.e(TAG, "RELEASE ERROR!!");
+		}
+	}
+	
+	public void change(int resid){
+		mBgm.setAudioSessionId(resid);
+	}
 }

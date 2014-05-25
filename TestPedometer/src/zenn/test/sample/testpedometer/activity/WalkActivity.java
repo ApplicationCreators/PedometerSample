@@ -1,8 +1,5 @@
 package zenn.test.sample.testpedometer.activity;
 
-import java.util.Date;
-import java.util.List;
-
 import zenn.test.sample.testpedometer.R;
 import zenn.test.sample.testpedometer.service.WalkCounterBinder;
 import zenn.test.sample.testpedometer.service.WalkCounterReceiver;
@@ -14,21 +11,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
-import android.os.Build;
 
 public class WalkActivity extends Activity{
 	public static final String APP_TAG = "TestPedometer.";

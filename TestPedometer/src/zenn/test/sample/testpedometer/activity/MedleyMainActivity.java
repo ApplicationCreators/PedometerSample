@@ -2,7 +2,7 @@ package zenn.test.sample.testpedometer.activity;
 
 import zenn.test.sample.testpedometer.MusicList;
 import zenn.test.sample.testpedometer.R;
-import zenn.test.sample.testpedometer.io.MusicFileHandler.MusicItem;
+import zenn.test.sample.testpedometer.io.MusicFileHandler.MedleyItem;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetManager;
@@ -14,12 +14,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-public class MainActivity extends Activity{
-	public static final String APP_TAG = "TestPedometer.";
-	public static final String TAG = APP_TAG+"MainActivity";
+public class MedleyMainActivity extends Activity{
+	public static String TAG = MainActivity.APP_TAG+"MedleyMainActivity";
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		Log.d(TAG, "onCreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.play_list);
@@ -30,8 +29,8 @@ public class MainActivity extends Activity{
 		
 		// リストを用意する
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-		for(MusicItem item : musicList.getMusics()){
-			adapter.add(item.title);
+		for(MedleyItem item : musicList.getMedleys()){
+			adapter.add(item.name);
 		}
 		ListView listView = (ListView) findViewById(R.id.lap);
 		listView.setAdapter(adapter);
@@ -43,23 +42,21 @@ public class MainActivity extends Activity{
 				Log.d(TAG, "arg2 : "+ arg2+" arg3 : "+arg3);
 				Intent intent = new Intent(getApplicationContext(), PlayMedleyActivity.class);
 //				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				MusicItem item =  musicList.getMusics().get((int)arg3);
-				intent.putExtra("title",item.title);
-				intent.putExtra("file", item.file);
-				intent.putExtra("length", item.length);
+				MedleyItem item =  musicList.getMedleys().get((int)arg3);
+				intent.putExtra("name",item.name);
+				intent.putExtra("ids", item.ids);
 				startActivity(intent);
 			}
 		});
 		
-		Button medleyButton = (Button) findViewById(R.id.medley_button);
-		medleyButton.setOnClickListener(new View.OnClickListener() {
+		Button button = (Button) findViewById(R.id.medley_button);
+		button.setText("Music");
+		button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(getApplicationContext(), MedleyMainActivity.class);
+				Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 				startActivity(intent);
 			}
 		});
-		
 	}
 }
-

@@ -13,6 +13,7 @@ import org.xml.sax.SAXException;
 
 import zenn.test.sample.testpedometer.activity.MainActivity;
 import zenn.test.sample.testpedometer.io.MusicFileHandler;
+import zenn.test.sample.testpedometer.io.MusicFileHandler.MedleyItem;
 import zenn.test.sample.testpedometer.io.MusicFileHandler.MusicItem;
 import android.content.res.AssetManager;
 import android.util.Log;
@@ -21,6 +22,7 @@ public class MusicList {
 	public static final String TAG = MainActivity.APP_TAG+"MusicList";
 	
 	private ArrayList<MusicItem> musics;
+	private ArrayList<MedleyItem> medleys;
 	
 	public MusicList(AssetManager manager, String path) {
 		musics = new ArrayList<MusicFileHandler.MusicItem>();
@@ -34,6 +36,7 @@ public class MusicList {
 			// 解析処理の実行
 			p.parse(new InputSource(mInput), parser);
 			musics = parser.getMusicItems();
+			medleys = parser.getMedleyItems();
 		} catch (IOException e) {
 			Log.e(TAG, "ERROR! NO ASSET FILE.");
 			e.printStackTrace();
@@ -48,5 +51,8 @@ public class MusicList {
 	
 	public ArrayList<MusicItem> getMusics() {
 		return musics;
+	}
+	public ArrayList<MedleyItem> getMedleys() {
+		return medleys;
 	}
 }
