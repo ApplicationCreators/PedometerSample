@@ -104,6 +104,8 @@ public class WalkCounterActivity extends Activity {
 			gry.reset();
 			grz.reset();
 			grv.reset();
+			count = 0;
+			walk_count_view.setText(String.valueOf(count));
 		}
 		
 
@@ -128,6 +130,10 @@ public class WalkCounterActivity extends Activity {
 							gry.invalidate();
 							grz.invalidate();
 							grv.invalidate();
+							if(ad.getWalk()){
+								count++;
+								walk_count_view.setText(String.valueOf(count));
+							}
 						}
 					});
 					try {

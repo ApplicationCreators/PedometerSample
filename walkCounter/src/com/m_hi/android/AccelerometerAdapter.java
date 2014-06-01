@@ -25,6 +25,11 @@ public class AccelerometerAdapter implements SensorEventListener {
 	private float dz = 0;
 	private double dv = 0;
 	
+	
+	// 歩数について
+	private boolean walk = false;
+	private double last_cos = 1.0;
+	
 	public float getDx() {
 		return dx;
 	}
@@ -51,6 +56,15 @@ public class AccelerometerAdapter implements SensorEventListener {
 	
 	public double getDv() {
 		return dv;
+	}
+	
+	public boolean getWalk(){
+		if(walk){
+			walk = false;
+			return true;
+		}
+		else
+			return false;
 	}
 
 	public void setDv(float dv) {
@@ -83,27 +97,40 @@ public class AccelerometerAdapter implements SensorEventListener {
 			dy = (event.values[1] - oldy)/2;
 			dz = (event.values[2] - oldz)/2;
 			
-//			if(!initialized){
-//				// 初期値を設定
-////				double amount = (event.values[0] * event.values[0] + event.values[1] * event.values[1] + event.values[2] * event.values[2]);
-////				Log.d("Accelero", ""+amount);
-//				initial_vecor[0] = event.values[0];
-//				initial_vecor[1] = event.values[1];
-//				initial_vecor[2] = event.values[2];
-//				init_vector_length = Math.sqrt(event.values[0] * event.values[0] + event.values[1] * event.values[1] + event.values[2] * event.values[2]);
-//				dv = 0;
-//				initialized = true;
-//			}
-//			else {
-//				// 内積を求める
-//				double naiseki = event.values[0] * initial_vecor[0] + event.values[1] * initial_vecor[1] + event.values[2] * initial_vecor[2];
-//				double current_length = Math.sqrt(event.values[0] * event.values[0] + event.values[1] * event.values[1] + event.values[2] * event.values[2]);
-//				double cos = naiseki/(init_vector_length * current_length);
-//				dv = cos * 10.0;
-//				Log.d("Accelero", ""+dv);
-////				dv =Math.sqrt((dx * dx + dy * dy + dz * dz)/2);
-//			}
-			dv =Math.sqrt((dx * dx + dy * dy + dz * dz)/2);
+			if(!initialized){
+				// 初期値を設定
+//				double amount = (event.values[0] * event.values[0] + event.values[1] * event.values[1] + event.values[2] * event.values[2]);
+//				Log.d("Accelero", ""+amount);
+				initial_vecor[0] = event.values[0];
+				initial_vecor[1] = event.values[1];
+				initial_vecor[2] = event.values[2];
+				init_vector_length = Math.sqrt(event.values[0] * event.values[0] + event.values[1] * event.values[1] + event.values[2] * event.values[2]);
+				dv = 0;
+				initialized = true;
+			}
+			else {
+				// 内積を求める
+				double naiseki = event.values[0] * initial_vecor[0] + event.values[1] * initial_vecor[1] + event.values[2] * initial_vecor[2];
+				double current_length = Math.sqrt(event.values[0] * event.values[0] + event.values[1] * event.values[1] + event.values[2] * event.values[2]);
+				double cos = naiseki/(init_vector_length * current_length);
+				dv = cos * 10.0;
+				Log.d("Accelero", ""+dv);
+//				dv =Math.sqrt((dx * dx + dy * dy + dz * dz)/2);
+			}
+//			dv =Math.sqrt((dx * dx + dy * dy + dz * dz)/2);
+			
+			if(last_cos > 0){
+				if(dv < 0){
+					walk = true;
+					last_cos = dv;
+				}
+			}
+			else{
+				if(dv > 0){
+					walk = true;
+					last_cos = dv;
+				}
+			}
 			
 			oldx = event.values[0];
 			oldy = event.values[1];
