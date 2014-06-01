@@ -6,9 +6,11 @@ import java.util.HashMap;
 import zenn.test.sample.testpedometer.MusicList;
 import zenn.test.sample.testpedometer.R;
 import zenn.test.sample.testpedometer.activity.MainActivity;
+import zenn.test.sample.testpedometer.exception.MusicNotFinishedYetException;
 import zenn.test.sample.testpedometer.io.CSVReader;
 import zenn.test.sample.testpedometer.io.MusicFileHandler.MedleyItem;
 import zenn.test.sample.testpedometer.io.MusicFileHandler.MusicItem;
+import zenn.test.sample.testpedometer.model.MedleyMonitor;
 import zenn.test.sample.testpedometer.model.PlayingMonitor;
 import zenn.test.sample.testpedometer.service.WalkCounterOnPlayingBinder;
 import zenn.test.sample.testpedometer.service.WalkCounterOnPlayingService;
@@ -46,7 +48,7 @@ public class PlayMedleyActivity extends Activity{
 
 	ViewRefresher thread;
 
-	ArrayList<PlayingMonitor> monitor_list;
+	MedleyMonitor monitor_list;
 	PlayingMonitor monitor;
 
 	// ラップ用
@@ -93,7 +95,7 @@ public class PlayMedleyActivity extends Activity{
 		AssetManager assetManager = getAssets();
 		musicList = new MusicList(assetManager, "lists/music_list.xml");
 		
-		monitor_list = new ArrayList<PlayingMonitor>();
+		monitor_list = new MedleyMonitor();
 		
 		// SEの用意
 		se_map = new HashMap<String, Integer>();
@@ -131,6 +133,7 @@ public class PlayMedleyActivity extends Activity{
 		Log.d(TAG, "onDestroy");
 		super.onDestroy();
 		stopPlaying();
+		stopThread();
 	}
 	
 	public void startMusic(){
@@ -285,7 +288,12 @@ public class PlayMedleyActivity extends Activity{
 					stopThread();
 					// 結果画面へ
 					Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
-					intent.putExtra("point", monitor.getResult());
+					try{
+						intent.putExtra("point", monitor_list.getResult());
+					} catch(MusicNotFinishedYetException e){
+						Log.e(TAG, "NOT FINISHED YET!!!!!");
+						intent.putExtra("point", "Not Finished Yet!!!");
+					}
 					startActivity(intent);
 				} else {
 					// 次の曲を始める

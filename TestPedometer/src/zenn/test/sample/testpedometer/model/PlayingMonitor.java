@@ -2,6 +2,7 @@ package zenn.test.sample.testpedometer.model;
 
 import java.util.ArrayList;
 
+import zenn.test.sample.testpedometer.exception.MusicNotFinishedYetException;
 import zenn.test.sample.testpedometer.io.MusicFileHandler.MusicItem;
 
 public class PlayingMonitor {
@@ -120,6 +121,34 @@ public class PlayingMonitor {
 		}
 	}
 	
+	/**
+	 * 獲得した点数を返す関数
+	 * @return
+	 * @throws MusicNotFinishedYetException
+	 */
+	public int getResultPoint() throws MusicNotFinishedYetException{
+		if(walk_data.size() == rithm_data.size()){
+			int point = 0;
+			for(int i=0;i<walk_data.size();i++){
+				point += (int)rithm_data.get(i).answer_walk_count
+						- (int)Math.abs(walk_data.get(i).count - rithm_data.get(i).answer_walk_count);
+			}
+			return point;
+		} else {
+			throw new MusicNotFinishedYetException();
+		}
+	}
+	/**
+	 * 最大ポイント
+	 * @return
+	 */
+	public int getAnswerPoint() {
+		int point = 0;
+		for(RithmData data : rithm_data)
+			point += data.answer_walk_count;
+		return point;
+	}
+	
 	public String getLastPhaseResult(){
 		if(current_index == 0 || current_index >= rithm_data.size())
 			return null;
@@ -145,7 +174,7 @@ public class PlayingMonitor {
 	 * 答えと実績から、評価を計算して返す
 	 * @return
 	 */
-	private int judgeResult(int answer, int record){
+	public static int judgeResult(int answer, int record){
 		double error_rate = Math.abs(1.0 - (double)record/answer);
 		if (error_rate == 0)        return 0;	// S+
 		else if (error_rate < 0.05) return 1;	// S
