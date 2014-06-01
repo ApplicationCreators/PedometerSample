@@ -131,6 +131,7 @@ public class PlayMedleyActivity extends Activity{
 		Log.d(TAG, "onDestroy");
 		super.onDestroy();
 		stopPlaying();
+		stopThread();
 	}
 	
 	public void startMusic(){
