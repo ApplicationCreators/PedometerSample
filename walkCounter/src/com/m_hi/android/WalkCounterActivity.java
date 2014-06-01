@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class WalkCounterActivity extends Activity {
@@ -22,6 +23,9 @@ public class WalkCounterActivity extends Activity {
 		Button stopButton = (Button) findViewById(R.id.stopButton);
 		Button resetButton = (Button) findViewById(R.id.resetButton);
 		TextView walkCount = (TextView) findViewById(R.id.walkcount);
+		Button registerThreasholdButton = (Button) findViewById(R.id.registerThreashold);
+		final EditText inputThreashold = (EditText) findViewById(R.id.inputThreadshold);
+		final TextView currentThreshold = (TextView) findViewById(R.id.currentThreadshold);
 		startButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -42,10 +46,20 @@ public class WalkCounterActivity extends Activity {
 		resetButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				ad.stopSensor();
-				thread.reset();
-				thread.close();
-				thread = null;
+				if(thread != null){
+					ad.stopSensor();
+					thread.reset();
+					thread.close();
+					thread = null;
+				}
+			}
+		});
+		registerThreasholdButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				double threadshold = Double.parseDouble(inputThreashold.getText().toString());
+				ad.setThreadshold(threadshold);
+				currentThreshold.setText(String.valueOf(ad.getThreashold()));
 			}
 		});
 		walkCount.setText("0");
@@ -104,6 +118,8 @@ public class WalkCounterActivity extends Activity {
 			gry.reset();
 			grz.reset();
 			grv.reset();
+			count = 0;
+			walk_count_view.setText(String.valueOf(count));
 		}
 		
 
@@ -128,6 +144,10 @@ public class WalkCounterActivity extends Activity {
 							gry.invalidate();
 							grz.invalidate();
 							grv.invalidate();
+							if(ad.getWalk()){
+								count++;
+								walk_count_view.setText(String.valueOf(count));
+							}
 						}
 					});
 					try {

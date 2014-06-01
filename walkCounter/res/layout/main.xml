@@ -37,6 +37,32 @@
             android:text="Small Text"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
+        <EditText
+            android:id="@+id/inputThreadshold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="number"
+            android:text="5" >
+
+            <requestFocus />
+        </EditText>
+
+        <Button
+            android:id="@+id/registerThreashold"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button" />
+
+        <TextView
+            android:id="@+id/currentThreadshold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
     </LinearLayout>
 
 </LinearLayout>
