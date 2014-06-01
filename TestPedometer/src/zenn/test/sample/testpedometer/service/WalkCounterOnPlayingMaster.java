@@ -45,7 +45,7 @@ public class WalkCounterOnPlayingMaster implements SensorEventListener {
 	// 軸方向転換の最小閾値
 	double thresholdMin = 1;
 	// ベクトル変化検出しない時間の閾値
-	long thresholdTime = 120;
+	long thresholdTime = 130;
 
 	// X軸加速方向
 	boolean vecx = true;
