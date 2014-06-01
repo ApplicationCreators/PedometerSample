@@ -41,7 +41,7 @@ public class MainActivity extends Activity{
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				Log.d(TAG, "arg2 : "+ arg2+" arg3 : "+arg3);
-				Intent intent = new Intent(getApplicationContext(), PlayMedleyActivity.class);
+				Intent intent = new Intent(getApplicationContext(), PlayMusicActivity.class);
 //				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				MusicItem item =  musicList.getMusics().get((int)arg3);
 				intent.putExtra("title",item.title);

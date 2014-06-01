@@ -218,7 +218,7 @@ public class PlayMedleyActivity extends Activity{
 	}
 
 	class ViewRefresher extends Thread {
-		public static final String TAG = WalkActivity.TAG+".ViewRefresher";
+		public static final String TAG = PlayMedleyActivity.TAG+".ViewRefresher";
 		Handler handler = new Handler();
 
 		TextView counter;

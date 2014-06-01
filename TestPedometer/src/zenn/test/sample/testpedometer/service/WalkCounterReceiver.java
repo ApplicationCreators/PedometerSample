@@ -18,7 +18,7 @@ public class WalkCounterReceiver extends BroadcastReceiver {
 		if (action.equals(Intent.ACTION_BOOT_COMPLETED)) {
 			Toast.makeText(context, "起動をしたのでサービスを開始します。", 1200).show();
 			context = context.getApplicationContext();
-			Intent service = new Intent(context, WalkCounterService.class);
+			Intent service = new Intent(context, WalkCounterOnPlayingService.class);
 			context.startService(service);
 		}
 	}
