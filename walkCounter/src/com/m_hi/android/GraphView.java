@@ -12,7 +12,7 @@ public class GraphView extends View {
 
 	double div =0;
 	int counter = 0;
-	int[] counterhistory = new int[480];
+	int[] counterhistory = new int[1000];
 
 	public GraphView(Context context) {
 		super(context);
@@ -25,14 +25,31 @@ public class GraphView extends View {
 	public GraphView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
+	
+	public void reset(){
+		div = 0;
+		counter = 0;
+		for(int i=0;i<counterhistory.length;i++){
+			counterhistory[i] = 0;
+		}
+	}
 
 	public void setDiv(double d){
 		this.div = d;
-		this.counter++;
+//		this.counter++;
+		int diff = 4;
+		this.counter += diff;
 		if (counterhistory.length <= counter){
 			counter = 0;
 		}
-		counterhistory[counter] = (int)d * 10;
+		else{
+			int last = counterhistory[counter - diff];
+			double up = (d * 10 - last) / diff;
+			for(int i=1;i<=diff;i++){
+				counterhistory[counter-diff+i] = (int)(last + up * i);
+			}
+			counterhistory[counter] = (int)d * 10;
+		}
 	}
 
 	@Override
@@ -66,7 +83,7 @@ public class GraphView extends View {
 		paint.setColor(Color.RED);
 		canvas.drawLine(counter, 0, counter, height, paint);
 
-		Log.i("GraphView","counter:"+counter);
+//		Log.i("GraphView","counter:"+counter);
 	}
 	
 	
