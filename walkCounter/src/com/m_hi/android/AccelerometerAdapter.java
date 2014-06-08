@@ -12,7 +12,7 @@ public class AccelerometerAdapter implements SensorEventListener {
 
 	private SensorManager manager;
 	
-	private double threashold;
+	private double threashold = 6.5;
 
 	private float oldx = 0;
 	private float oldy = 0;
@@ -106,27 +106,27 @@ public class AccelerometerAdapter implements SensorEventListener {
 			dy = (event.values[1] - oldy)/2;
 			dz = (event.values[2] - oldz)/2;
 			
-			if(!initialized){
-				// 初期値を設定
-//				double amount = (event.values[0] * event.values[0] + event.values[1] * event.values[1] + event.values[2] * event.values[2]);
-//				Log.d("Accelero", ""+amount);
-				initial_vecor[0] = event.values[0];
-				initial_vecor[1] = event.values[1];
-				initial_vecor[2] = event.values[2];
-				init_vector_length = Math.sqrt(event.values[0] * event.values[0] + event.values[1] * event.values[1] + event.values[2] * event.values[2]);
-				dv = 0;
-				initialized = true;
-			}
-			else {
-				// 内積を求める
-				double naiseki = event.values[0] * initial_vecor[0] + event.values[1] * initial_vecor[1] + event.values[2] * initial_vecor[2];
-				double current_length = Math.sqrt(event.values[0] * event.values[0] + event.values[1] * event.values[1] + event.values[2] * event.values[2]);
-				double cos = naiseki/(init_vector_length * current_length);
-				dv = cos * 10.0;
-				Log.d("Accelero", ""+dv);
-//				dv =Math.sqrt((dx * dx + dy * dy + dz * dz)/2);
-			}
-//			dv =Math.sqrt((dx * dx + dy * dy + dz * dz)/2);
+//			if(!initialized){
+//				// 初期値を設定
+////				double amount = (event.values[0] * event.values[0] + event.values[1] * event.values[1] + event.values[2] * event.values[2]);
+////				Log.d("Accelero", ""+amount);
+//				initial_vecor[0] = event.values[0];
+//				initial_vecor[1] = event.values[1];
+//				initial_vecor[2] = event.values[2];
+//				init_vector_length = Math.sqrt(event.values[0] * event.values[0] + event.values[1] * event.values[1] + event.values[2] * event.values[2]);
+//				dv = 0;
+//				initialized = true;
+//			}
+//			else {
+//				// 内積を求める
+//				double naiseki = event.values[0] * initial_vecor[0] + event.values[1] * initial_vecor[1] + event.values[2] * initial_vecor[2];
+//				double current_length = Math.sqrt(event.values[0] * event.values[0] + event.values[1] * event.values[1] + event.values[2] * event.values[2]);
+//				double cos = naiseki/(init_vector_length * current_length);
+//				dv = cos * 10.0;
+//				Log.d("Accelero", ""+dv);
+////				dv =Math.sqrt((dx * dx + dy * dy + dz * dz)/2);
+//			}
+			dv =Math.sqrt((dx * dx + dy * dy + dz * dz)/2);
 			
 			if(dv < threashold){
 				walk = true;
